@@ -1,0 +1,25 @@
+#! Local use only
+version: "3.8"
+
+services:
+
+  flask:
+    build: ./SAEP
+    container_name: flask
+    restart: always
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./SAEP:/app
+    env_file:
+      - ./SAEP/local.env
+
+  pgsql:
+    image: postgres:13-alpine
+    container_name: pgsql
+    env_file:
+      - db.env
+    volumes:
+      - .database-data:/var/lib/postgresql/data/
+    ports:
+      - "5432:5432"
