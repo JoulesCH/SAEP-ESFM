@@ -1,16 +1,8 @@
-# Installed packages
-from flask import Flask
+from fastapi import FastAPI
 
-# Built-in packages
-import os
 
-app = Flask(__name__, template_folder='../templates', static_folder='../static')
+app = FastAPI()
 
-# Database config for psgl
-DATABASE_URL = os.getenv('DATABASE_URL')
-if 'postgresql' not in DATABASE_URL:
-    DATABASE_URL = DATABASE_URL.replace('postgres', 'postgresql')
-app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
+from endpoints import api_router
 
-import views
-from . import database
+app.include_router(api_router, prefix="/api")

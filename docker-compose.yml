@@ -3,9 +3,9 @@ version: "3.8"
 
 services:
 
-  flask:
+  api:
     build: ./SAEP
-    container_name: flask
+    container_name: api
     restart: always
     ports:
       - "8080:8080"
@@ -23,3 +23,10 @@ services:
       - .database-data:/var/lib/postgresql/data/
     ports:
       - "5432:5432"
+  
+  redis:
+    image: "redis:alpine"
+    container_name: redis
+    command: redis-server --requirepass password
+    ports:
+     - "6379:6379"
