@@ -4,16 +4,27 @@ version: "3.8"
 services:
 
   api:
-    build: ./SAEP
+    build: ./backend
     container_name: api
+    restart: always
+    ports:
+      - "7000:7000"
+    volumes:
+      - ./backend:/app
+    env_file:
+      - ./backend/local.env
+  
+  front:
+    build: ./frontend
+    container_name: front
     restart: always
     ports:
       - "8080:8080"
     volumes:
-      - ./SAEP:/app
+      - ./frontend:/app
     env_file:
-      - ./SAEP/local.env
-
+      - ./frontend/local.env
+  
   pgsql:
     image: postgres:13-alpine
     container_name: pgsql
@@ -23,7 +34,7 @@ services:
       - .database-data:/var/lib/postgresql/data/
     ports:
       - "5432:5432"
-  
+
   redis:
     image: "redis:alpine"
     container_name: redis
